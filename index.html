@@ -478,6 +478,104 @@
       margin-bottom: 10px;
     }
 
+
+    .redeem-page {
+      position: fixed;
+      inset: 0;
+      z-index: 9997;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top left, rgba(255, 210, 232, 0.98), transparent 38%),
+        radial-gradient(circle at bottom right, rgba(217, 243, 255, 0.9), transparent 36%),
+        linear-gradient(135deg, #fff8fc, #ffe8f2);
+      animation: fadeUp 0.45s ease;
+    }
+
+    .redeem-page.show {
+      display: flex;
+    }
+
+    .redeem-card-page {
+      width: min(430px, 100%);
+      background: rgba(255, 255, 255, 0.78);
+      border: 1.5px solid rgba(255, 255, 255, 0.95);
+      border-radius: 34px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(255, 110, 169, 0.22);
+      backdrop-filter: blur(14px);
+      position: relative;
+    }
+
+    .redeem-card-page::before {
+      content: "birthday coupon ♡";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      color: #ff6ea9;
+      border: 1.5px solid #ffd1e4;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .redeem-card-page h2 {
+      color: #ff5e9f;
+      font-family: "Fredoka", "Quicksand", sans-serif;
+      font-size: 1.8rem;
+      margin: 14px 0 8px;
+    }
+
+    .redeem-card-page p {
+      color: #7d6673;
+      line-height: 1.7;
+      font-size: 14.5px;
+      margin-bottom: 16px;
+    }
+
+    .qr-wrap {
+      width: min(260px, 100%);
+      margin: 0 auto 16px;
+      padding: 12px;
+      background: white;
+      border-radius: 26px;
+      border: 2px dashed #ff9bc5;
+      box-shadow: 0 12px 28px rgba(255, 110, 169, 0.12);
+    }
+
+    .qr-wrap img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      display: block;
+      border-radius: 18px;
+    }
+
+    .redeem-code {
+      background: #ffedf5;
+      border: 1.5px solid #ffd1e4;
+      color: #ff5e9f;
+      border-radius: 18px;
+      padding: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+    }
+
+    .redeem-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .letter {
       margin-top: 42px;
       background: linear-gradient(180deg, rgba(255,255,255,0.80), rgba(255,255,255,0.65));
@@ -665,6 +763,25 @@
     </div>
   </section>
 
+  <section class="redeem-page" id="redeemPage">
+    <div class="redeem-card-page">
+      <h2>Gift unlocked 🍦</h2>
+      <p>scan QR ini atau tunjukin kode redeem ke Syenji buat klaim hadiahnya yaa.</p>
+
+      <div class="qr-wrap">
+        <!-- GANTI GAMBAR QR CODE DI BAWAH -->
+        <img src="qrcode.jpg" alt="QR Code Redeem" />
+      </div>
+
+      <div class="redeem-code">CODE: CHISA-ICECREAM</div>
+
+      <div class="redeem-actions">
+        <button class="btn-main" onclick="copyRedeemCode()">copy code</button>
+        <button class="btn-soft" onclick="closeRedeemPage()">back</button>
+      </div>
+    </div>
+  </section>
+
   <button class="music-control" id="musicBtn" onclick="toggleMusic()" title="Play/Pause music">♫</button>
 
   <div class="floating">
@@ -703,18 +820,6 @@
           made specially with soft pink energy and lots of good wishes 🌸
         </div>
 
-        <div id="surpriseBox" class="surprise-box">
-          <h3>Surprise for you 🥳</h3>
-          <p>
-            semoga di umur yang baru ini kamu makin bahagia, makin kuat, makin cantik,
-            dan makin dekat sama semua hal yang kamu impikan.
-          </p>
-          <p>
-            kalau hari-harimu lagi capek, semoga selalu ada alasan kecil buat bikin kamu senyum lagi.
-            because you really deserve nice things. 💖
-          </p>
-          <p><b>once again, happy birthday yaa ✨🎂</b></p>
-        </div>
       </div>
 
       <div class="right">
@@ -762,6 +867,7 @@
     const quizProgress = document.getElementById("quizProgress");
     const quizQuestion = document.getElementById("quizQuestion");
     const quizOptions = document.getElementById("quizOptions");
+    const redeemPage = document.getElementById("redeemPage");
 
     let currentQuestion = 0;
 
@@ -896,10 +1002,23 @@
     }
 
     function showSurprise() {
-      const box = document.getElementById("surpriseBox");
-      box.classList.add("show");
+      redeemPage.classList.add("show");
       createConfetti();
-      box.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function closeRedeemPage() {
+      redeemPage.classList.remove("show");
+    }
+
+    function copyRedeemCode() {
+      const code = "CHISA-ICECREAM";
+      navigator.clipboard.writeText(code)
+        .then(() => {
+          alert("kode redeem berhasil dicopy 💗");
+        })
+        .catch(() => {
+          alert("kodenya: " + code);
+        });
     }
 
     function scrollToLetter() {
